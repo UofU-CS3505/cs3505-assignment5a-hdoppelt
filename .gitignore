@@ -1,0 +1,8 @@
+# Ignore compiled object files
+*.o
+
+# Ignore the test executable
+TrieTests
+
+# Ignore GoogleTest source files
+googletest/
