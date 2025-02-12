@@ -15,8 +15,8 @@
  * 
  * The Trie only supports lowercase letters ('a' to 'z') and ignores uppercase and special characters.
  * 
- * @author Harrison Doppelt
- * @date 02/06/2025
+ * @author Harrison Doppelt & Victor Valdez Landa
+ * @date 02/12/2025
  */
 
 #include <string>

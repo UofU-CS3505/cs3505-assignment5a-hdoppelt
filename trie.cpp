@@ -19,8 +19,8 @@
  * - A destructor for proper memory management.
  * - Methods for adding and searching words.
  * 
- * @author Harrison Doppelt
- * @date 02/06/2025
+ * @author Harrison Doppelt & Victor Valdez Landa
+ * @date 02/12/2025
  */
 
 #include "trie.h"
