@@ -6,9 +6,9 @@
  */
 
 #include "trie.h"
+#include "gtest/gtest.h"
 #include <iostream>
 #include <cassert>
-#include <gtest/gtest.h>
 
 using std::cout;
 using std::endl;
