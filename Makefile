@@ -21,7 +21,7 @@ GTEST_INC = $(GOOGLETEST)/googletest/include
 
 # Compile Target
 TrieTests: trie.o trieTests.o
-	$(CC) $(CFLAGS) -L$(GTEST_LIB) -I$(GTEST_INC) -lgtest -lgtest_main trie.o trieTests.o -o TrieTests
+	$(CC) $(CFLAGS) -L$(GTEST_LIB) -I$(GTEST_INC) trie.o trieTests.o -o TrieTests -lgtest -lgtest_main
 
 # Compile trieTests.o
 trieTests.o: trieTests.cpp trie.h
