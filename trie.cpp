@@ -63,57 +63,24 @@ void Trie::addWord(const string& word) {
 
 // isWord
 bool Trie::isWord(const string& word) const {
-
-    if (word.empty()) {
-        return false;
-    }
-
-    const Trie* currentNode = this;
-    
-    for (char letter : word) {
-
-        if (!isValidChar(letter)) {
-            return false;
-        }
-
-        auto childIterator = currentNode->children.find(letter);
-
-        if (childIterator == currentNode->children.end()) {
-            return false;
-        }
-
-        currentNode = &childIterator->second;
-    }
-    
-    return currentNode->isEndOfWord;
+    const Trie* lastNode = traverseTrie(word);
+    return lastNode != nullptr && lastNode->isEndOfWord;
 }
 
 // allWordsStartingWithPrefix
 vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) const {
 
-    // Start from the root node
-    const Trie* currentNode = this;
+    const Trie* lastNode = traverseTrie(searchPrefix);
     
-    for (char letter : searchPrefix) {
-
-        if (!isValidChar(letter)) {
-            return {};
-        }
-
-        auto childIterator = currentNode->children.find(letter);
-
-        if (childIterator == currentNode->children.end()) {
-            return {};
-        }
-
-        currentNode = &childIterator->second;
+    if (!lastNode) {
+        return {};
     }
     
     // Vector to store found words
     vector<string> foundWords;
 
     // Stack to track Trie nodes for DFS traversal
-    vector<const Trie*> nodeStack = {currentNode};
+    vector<const Trie*> nodeStack = {lastNode};
 
     // Stack to track the corresponding words during traversal
     vector<string> wordStack = {searchPrefix};
@@ -149,4 +116,25 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
 
 bool Trie::isValidChar(char letter) {
     return letter >= 'a' && letter <= 'z';
+}
+
+const Trie* Trie::traverseTrie(const string& searchPrefix) const {
+    const Trie* currentNode = this;
+
+    for (char letter : searchPrefix) {
+
+        if (!isValidChar(letter)) {
+            return nullptr;
+        }
+
+        auto childIterator = currentNode->children.find(letter);
+
+        if (childIterator == currentNode->children.end()) {
+            return nullptr;
+        }
+
+        currentNode = &childIterator->second;
+    }
+
+    return currentNode;
 }

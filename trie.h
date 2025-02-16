@@ -133,6 +133,9 @@ public:
 
     // TODO COMMENT
     static bool isValidChar(char letter);
+
+    // TODO COMMENT
+    const Trie* traverseTrie(const string& searchPrefix) const;
 };
 
 #endif
