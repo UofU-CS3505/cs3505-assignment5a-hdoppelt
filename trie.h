@@ -129,7 +129,7 @@ public:
      * @param prefix The prefix to search for.
      * @return A vector of words that start with the given prefix.
      */
-    vector<string> allWordsStartingWithPrefix(const string& prefix) const;
+    vector<string> allWordsStartingWithPrefix(const string& searchPrefix) const;
 };
 
 #endif

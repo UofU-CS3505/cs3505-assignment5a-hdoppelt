@@ -52,13 +52,13 @@ Trie& Trie::operator=(Trie other) {
 
 // addWord
 void Trie::addWord(const string& word) {
-    Trie* node = this;
+    Trie* currentNode = this;
     
-    for (char c : word) {  
-        node = &node->children[c];
+    for (char letter : word) {  
+        currentNode = &currentNode->children[letter];
     }
     
-    node->isEndOfWord = true;
+    currentNode->isEndOfWord = true;
 }
 
 // isWord
@@ -68,49 +68,49 @@ bool Trie::isWord(const string& word) const {
         return false;
     }
 
-    const Trie* node = this;
+    const Trie* currentNode = this;
     
-    for (char c : word) {
+    for (char letter : word) {
 
-        if (c < 'a' || c > 'z') {
+        if (letter < 'a' || letter > 'z') {
             return false;
         }
 
-        auto it = node->children.find(c);
+        auto childIterator = currentNode->children.find(letter);
 
-        if (it == node->children.end()) {
+        if (childIterator == currentNode->children.end()) {
             return false;
         }
 
-        node = &it->second;
+        currentNode = &childIterator->second;
     }
     
-    return node->isEndOfWord;
+    return currentNode->isEndOfWord;
 }
 
 // allWordsStartingWithPrefix
-vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
+vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) const {
 
     // Start from the root node
-    const Trie* node = this;
+    const Trie* currentNode = this;
     
-    for (char c : prefix) {
+    for (char letter : searchPrefix) {
 
         // Reject uppercase and non-alphabetic characters
-        if (c < 'a' || c > 'z') {
+        if (letter < 'a' || letter > 'z') {
             return {};      // Return an empty list
         }
 
-        auto it = node->children.find(c);
-        if (it == node->children.end()) {
+        auto childIterator = currentNode->children.find(letter);
+        if (childIterator == currentNode->children.end()) {
             return {};  // Prefix not found
         }
 
-        node = &it->second;
+        currentNode = &childIterator->second;
     }
     
     // Vector to store found words
-    vector<string> words;
+    vector<string> foundWords;
 
     // Stack to track Trie nodes for DFS traversal
     vector<const Trie*> nodeStack;
@@ -119,10 +119,10 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
     vector<string> wordStack;
 
     // Push the starting node onto the stack
-    nodeStack.push_back(node);
+    nodeStack.push_back(currentNode);
 
     // Push the prefix onto the word stack
-    wordStack.push_back(prefix);
+    wordStack.push_back(searchPrefix);
     
     // Continue traversal while stack is not empty
     while (!nodeStack.empty()) {
@@ -131,7 +131,7 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
         const Trie* currentNode = nodeStack.back();
 
         // Get the corresponding word
-        string word = wordStack.back();
+        string currentWord = wordStack.back();
 
         // Remove the last element from the stack
         nodeStack.pop_back();
@@ -141,14 +141,14 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
         
         // If this node marks the end of a word
         if (currentNode->isEndOfWord) {
-            words.push_back(word);      // Add the word to the results
+            foundWords.push_back(currentWord);      // Add the word to the results
         }
         
-        for (auto it = currentNode->children.begin(); it != currentNode->children.end(); ++it) {
-            nodeStack.push_back(&it->second);
-            wordStack.push_back(word + it->first);
+        for (auto childIterator = currentNode->children.begin(); childIterator != currentNode->children.end(); ++childIterator) {
+            nodeStack.push_back(&childIterator->second);
+            wordStack.push_back(currentWord + childIterator->first);
         }
     }
     
-    return words;
+    return foundWords;
 }
