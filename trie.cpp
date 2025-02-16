@@ -72,7 +72,7 @@ bool Trie::isWord(const string& word) const {
     
     for (char letter : word) {
 
-        if (letter < 'a' || letter > 'z') {
+        if (!isValidChar(letter)) {
             return false;
         }
 
@@ -96,14 +96,14 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
     
     for (char letter : searchPrefix) {
 
-        // Reject uppercase and non-alphabetic characters
-        if (letter < 'a' || letter > 'z') {
-            return {};      // Return an empty list
+        if (!isValidChar(letter)) {
+            return {};
         }
 
         auto childIterator = currentNode->children.find(letter);
+
         if (childIterator == currentNode->children.end()) {
-            return {};  // Prefix not found
+            return {};
         }
 
         currentNode = &childIterator->second;
@@ -113,17 +113,11 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
     vector<string> foundWords;
 
     // Stack to track Trie nodes for DFS traversal
-    vector<const Trie*> nodeStack;
+    vector<const Trie*> nodeStack = {currentNode};
 
     // Stack to track the corresponding words during traversal
-    vector<string> wordStack;
+    vector<string> wordStack = {searchPrefix};
 
-    // Push the starting node onto the stack
-    nodeStack.push_back(currentNode);
-
-    // Push the prefix onto the word stack
-    wordStack.push_back(searchPrefix);
-    
     // Continue traversal while stack is not empty
     while (!nodeStack.empty()) {
 
@@ -151,4 +145,8 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
     }
     
     return foundWords;
+}
+
+bool Trie::isValidChar(char letter) {
+    return letter >= 'a' && letter <= 'z';
 }
