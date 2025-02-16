@@ -76,33 +76,18 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
         return {};
     }
     
-    // Vector to store found words
     vector<string> foundWords;
-
-    // Stack to track Trie nodes for DFS traversal
     vector<const Trie*> nodeStack = {lastNode};
-
-    // Stack to track the corresponding words during traversal
     vector<string> wordStack = {searchPrefix};
 
-    // Continue traversal while stack is not empty
     while (!nodeStack.empty()) {
-
-        // Get the last element from the stack
         const Trie* currentNode = nodeStack.back();
-
-        // Get the corresponding word
         string currentWord = wordStack.back();
-
-        // Remove the last element from the stack
         nodeStack.pop_back();
-
-        // Remove the corresponding word
         wordStack.pop_back();
         
-        // If this node marks the end of a word
         if (currentNode->isEndOfWord) {
-            foundWords.push_back(currentWord);      // Add the word to the results
+            foundWords.push_back(currentWord);
         }
         
         for (auto childIterator = currentNode->children.begin(); childIterator != currentNode->children.end(); ++childIterator) {

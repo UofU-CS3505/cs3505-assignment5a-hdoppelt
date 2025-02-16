@@ -49,6 +49,12 @@ private:
      */
     bool isEndOfWord;
 
+    // TODO COMMENT
+    static bool isValidChar(char letter);
+
+    // TODO COMMENT
+    const Trie* traverseTrie(const string& searchPrefix) const;
+
 public:
 
     /**
@@ -130,12 +136,6 @@ public:
      * @return A vector of words that start with the given prefix.
      */
     vector<string> allWordsStartingWithPrefix(const string& searchPrefix) const;
-
-    // TODO COMMENT
-    static bool isValidChar(char letter);
-
-    // TODO COMMENT
-    const Trie* traverseTrie(const string& searchPrefix) const;
 };
 
 #endif
