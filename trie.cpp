@@ -32,100 +32,63 @@ using std::endl;
 using std::swap;
 
 // Default Constructor
-Trie::Trie() : isEndOfWord(false) {
-    for (int i = 0; i < 26; i++) {
-        children[i] = nullptr;
-    }
-}
+Trie::Trie() : isEndOfWord(false) {}
 
 // Copy Constructor
-Trie::Trie(const Trie& other) {
-    isEndOfWord = other.isEndOfWord;
-
-    for (int i = 0; i < 26; i++) {
-
-        // If the child exists in the other Trie
-        if (other.children[i]) {
-            children[i] = new Trie(*(other.children[i]));   // Create a new Trie node and recursively copy it
-        } 
-
-        // If there is no child at this position
-        else {
-            children[i] = nullptr;
-        }
-    }
-}
+Trie::Trie(const Trie& other) : children(other.children), isEndOfWord(other.isEndOfWord) {}
 
 // Destructor
-Trie::~Trie() {
-    for (int i = 0; i < 26; i++) {
-        delete children[i];     // Delete each child node (calls their destructors recursively)
-    }
-}
+Trie::~Trie() {}
 
 // Assignment Operator
 Trie& Trie::operator=(Trie other) {
-    swap(isEndOfWord, other.isEndOfWord);
-    swap(children, other.children);
+    if (this != &other) {
+        isEndOfWord = other.isEndOfWord;
+        children = other.children;
+    }
+    
     return *this;
 }
 
+// addWord
 void Trie::addWord(const string& word) {
-
-    // Start from the root node
     Trie* node = this;
     
     for (char c : word) {  
-
-        // Convert character to index (0-25)
-        int index = c - 'a';
-        
-        // If node doesnt exist for this letter
-        if (!node->children[index]) {  
-            node->children[index] = new Trie();     // Create a new Trie node
-        }
-        
-        // Move to the next node
-        node = node->children[index];
+        node = &node->children[c];
     }
     
-    // Mark the last node as the end of a valid word
     node->isEndOfWord = true;
 }
 
+// isWord
 bool Trie::isWord(const string& word) const {
 
-    // Reject empty words
     if (word.empty()) {
         return false;
     }
 
-    // Start from the root node
     const Trie* node = this;
     
     for (char c : word) {
 
-        // Reject uppercase and non-alphabetic characters
         if (c < 'a' || c > 'z') {
             return false;
         }
 
-        // Convert character to index (0-25)
-        int index = c - 'a';
+        auto it = node->children.find(c);
 
-        // If node doesnt exist for this letter
-        if (!node->children[index]) {
-            return false;       // Word is not in Trie
+        if (it == node->children.end()) {
+            return false;
         }
 
-        // Move to the next character node
-        node = node->children[index];
+        node = &it->second;
     }
     
-    // Returns true if the last node marks the end of a word
     return node->isEndOfWord;
 }
 
+// allWordsStartingWithPrefix
 vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
 
     // Start from the root node
@@ -138,23 +101,16 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
             return {};      // Return an empty list
         }
 
-        // Convert character to index
-        int index = c - 'a';
-
-        // If the prefix does not exist in Trie
-        if (!node->children[index]) {
-            return {};  // Return an empty list
+        auto it = node->children.find(c);
+        if (it == node->children.end()) {
+            return {};  // Prefix not found
         }
 
-        // Move to the next node
-        node = node->children[index];
+        node = &it->second;
     }
     
     // Vector to store found words
     vector<string> words;
-
-    // Start with the given prefix
-    string currentWord = prefix;
 
     // Stack to track Trie nodes for DFS traversal
     vector<const Trie*> nodeStack;
@@ -166,7 +122,7 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
     nodeStack.push_back(node);
 
     // Push the prefix onto the word stack
-    wordStack.push_back(currentWord);
+    wordStack.push_back(prefix);
     
     // Continue traversal while stack is not empty
     while (!nodeStack.empty()) {
@@ -188,14 +144,9 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& prefix) const {
             words.push_back(word);      // Add the word to the results
         }
         
-        // Iterate over children in reverse order to maintain alphabetical order
-        for (int i = 25; i >= 0; i--) {
-            
-            // If the child exists
-            if (currentNode->children[i]) {
-                nodeStack.push_back(currentNode->children[i]);  // Push it onto the stack for further traversal
-                wordStack.push_back(word + char(i + 'a'));      // Append the character to the word and push to stack
-            }
+        for (auto it = currentNode->children.begin(); it != currentNode->children.end(); ++it) {
+            nodeStack.push_back(&it->second);
+            wordStack.push_back(word + it->first);
         }
     }
     

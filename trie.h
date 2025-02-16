@@ -21,9 +21,11 @@
 
 #include <string>
 #include <vector>
+#include <map>
 
 using std::string;
 using std::vector;
+using std::map;
 
 /**
  * @class Trie
@@ -37,14 +39,8 @@ class Trie {
 
 private:
 
-    /** 
-     * @brief Fixed array of child pointers for 26 lowercase letters ('a' to 'z').
-     * 
-     * Each index corresponds to a letter, where index 0 = 'a', index 25 = 'z'.
-     * 
-     * Initialized to nullptr since children are created dynamically when needed.
-     */
-    Trie* children[26];
+    // TODO COMMENT
+    map<char, Trie> children;
 
     /** 
      * @brief Flag indicating whether this node represents the end of a valid word.

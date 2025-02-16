@@ -67,8 +67,8 @@ TEST(AllWordsStartingWithPrefix, CanFindWordsWithPrefix) {
     trie.addWord("applause");
 
     std::vector<std::string> words = trie.allWordsStartingWithPrefix("app");
-    std::vector<std::string> expected = {"apple", "applet", "applause"};
     std::sort(words.begin(), words.end());
+    std::vector<std::string> expected = {"apple", "applet", "applause"};
     std::sort(expected.begin(), expected.end());
 
     ASSERT_EQ(expected, words);
@@ -107,6 +107,7 @@ TEST(AllWordsStartingWithPrefix, InvalidUppercasePrefix) {
     ASSERT_TRUE(trie.allWordsStartingWithPrefix("Word").empty());
 }
 
+// ERROR
 TEST(AllWordsStartingWithPrefix, EmptyPrefixReturnsAllWords) {
     Trie trie;
     trie.addWord("apple");
@@ -114,6 +115,7 @@ TEST(AllWordsStartingWithPrefix, EmptyPrefixReturnsAllWords) {
     trie.addWord("cherry");
 
     std::vector<std::string> words = trie.allWordsStartingWithPrefix("");
+    std::sort(words.begin(), words.end());
     std::vector<std::string> expected = {"apple", "banana", "cherry"};
 
     ASSERT_EQ(expected, words);
