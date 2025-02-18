@@ -1,14 +1,14 @@
 # Name: Harrison Doppelt & Victor Valdez Landa
-# Date: 02/12/2025
+# Date: 02/18/2025
 # Description:
 #
 #   This Makefile is used to compile and run unit tests for a Trie data structure
 #   using GoogleTest.
 #
-#   - Targets:
-#     - TrieTests: Compiles and links the Trie implementation with GoogleTest.
-#     - test: Runs the compiled TrieTests executable.
-#     - clean: Removes compiled binaries and object files.
+# Targets:
+# 	- TrieTests: Compiles and links the Trie implementation with GoogleTest.
+#   - test: Runs the compiled TrieTests executable.
+#   - clean: Removes compiled binaries and object files.
 
 # Compiler and Flags
 CC = g++

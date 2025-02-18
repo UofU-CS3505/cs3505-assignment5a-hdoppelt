@@ -3,7 +3,7 @@
 
 /**
  * @file trie.h
- * @brief Definition of the Trie class for CS 3505 Assignment 4.
+ * @brief Definition of the Trie class from CS 3505 Assignment 4.
  * 
  * This header file defines the Trie class, which implements Trie for storing 
  * and searching words efficiently. 
@@ -16,7 +16,7 @@
  * The Trie only supports lowercase letters ('a' to 'z') and ignores uppercase and special characters.
  * 
  * @author Harrison Doppelt & Victor Valdez Landa
- * @date 02/17/2025
+ * @date 02/18/2025
  */
 
 #include <string>
@@ -39,7 +39,9 @@ class Trie {
 
 private:
 
-    // A map that holds the 'branches' of a Trie 
+    /**
+     * @brief Stores nodes that represent the next characters in words.
+     */
     map<char, Trie> children;
 
     /** 

@@ -1,6 +1,6 @@
 /**
  * @file trie.cpp
- * @brief Implementation of the Trie class for CS 3505 Assignment 4.
+ * @brief Implementation of the Trie class from CS 3505 Assignment 4.
  * 
  * This file contains the implementation of a Trie.
  * 
@@ -20,7 +20,7 @@
  * - Methods for adding and searching words.
  * 
  * @author Harrison Doppelt & Victor Valdez Landa
- * @date 02/17/2025
+ * @date 02/18/2025
  */
 
 #include "trie.h"
@@ -31,46 +31,40 @@ using std::cout;
 using std::endl;
 using std::swap;
 
-// Default Constructor
 Trie::Trie() : isEndOfWord(false) {}
 
-// Copy Constructor
 Trie::Trie(const Trie& other) : children(other.children), isEndOfWord(other.isEndOfWord) {}
 
-// Destructor
 Trie::~Trie() {}
 
-// Assignment Operator
 Trie& Trie::operator=(Trie other) {
+
     if (this != &other) {
         isEndOfWord = other.isEndOfWord;
         children = other.children;
     }
-    
+
     return *this;
 }
 
-// addWord
 void Trie::addWord(const string& word) {
     Trie* currentNode = this;
-    
-    for (char letter : word) {  
+
+    for (char letter : word) {
         currentNode = &currentNode->children[letter];
     }
-    
+
     currentNode->isEndOfWord = true;
 }
 
-// isWord
 bool Trie::isWord(const string& word) const {
     const Trie* lastNode = traverseTrie(word);
     return lastNode != nullptr && lastNode->isEndOfWord;
 }
 
-// allWordsStartingWithPrefix
 vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) const {
-
     const Trie* lastNode = traverseTrie(searchPrefix);
+
     if (!lastNode) {
         return {};
     }
@@ -82,7 +76,6 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
     while (!nodeStack.empty()) {
         const Trie* currentNode = nodeStack.back();
         string currentWord = wordStack.back();
-        // Extract the last node.
         nodeStack.pop_back();
         wordStack.pop_back();
         
@@ -113,6 +106,7 @@ const Trie* Trie::traverseTrie(const string& searchPrefix) const {
         if (!isValidChar(letter)) {
             return nullptr;
         }
+
         // Use maps find() to get or find the current letter
         auto childIterator = currentNode->children.find(letter);
 
@@ -120,6 +114,7 @@ const Trie* Trie::traverseTrie(const string& searchPrefix) const {
         if (childIterator == currentNode->children.end()) {
             return nullptr;
         }
+
         // Keep travversing through the Trie.
         currentNode = &childIterator->second;
     }
