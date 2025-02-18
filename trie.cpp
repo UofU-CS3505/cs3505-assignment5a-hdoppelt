@@ -20,7 +20,7 @@
  * - Methods for adding and searching words.
  * 
  * @author Harrison Doppelt & Victor Valdez Landa
- * @date 02/12/2025
+ * @date 02/17/2025
  */
 
 #include "trie.h"
@@ -71,7 +71,6 @@ bool Trie::isWord(const string& word) const {
 vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) const {
 
     const Trie* lastNode = traverseTrie(searchPrefix);
-    
     if (!lastNode) {
         return {};
     }
@@ -83,13 +82,16 @@ vector<string> Trie::allWordsStartingWithPrefix(const string& searchPrefix) cons
     while (!nodeStack.empty()) {
         const Trie* currentNode = nodeStack.back();
         string currentWord = wordStack.back();
+        // Extract the last node.
         nodeStack.pop_back();
         wordStack.pop_back();
         
+        // If the current node is a vaid node, add it.
         if (currentNode->isEndOfWord) {
             foundWords.push_back(currentWord);
         }
         
+        // Keep iterating through the letters of the Trie and push into the nodeStack, then update the wordStack.
         for (auto childIterator = currentNode->children.begin(); childIterator != currentNode->children.end(); ++childIterator) {
             nodeStack.push_back(&childIterator->second);
             wordStack.push_back(currentWord + childIterator->first);
@@ -111,13 +113,14 @@ const Trie* Trie::traverseTrie(const string& searchPrefix) const {
         if (!isValidChar(letter)) {
             return nullptr;
         }
-
+        // Use maps find() to get or find the current letter
         auto childIterator = currentNode->children.find(letter);
 
+        // Check If the current node points to the last element and theres nothing.
         if (childIterator == currentNode->children.end()) {
             return nullptr;
         }
-
+        // Keep travversing through the Trie.
         currentNode = &childIterator->second;
     }
 

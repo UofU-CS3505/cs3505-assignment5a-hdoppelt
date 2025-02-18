@@ -16,7 +16,7 @@
  * The Trie only supports lowercase letters ('a' to 'z') and ignores uppercase and special characters.
  * 
  * @author Harrison Doppelt & Victor Valdez Landa
- * @date 02/12/2025
+ * @date 02/17/2025
  */
 
 #include <string>
@@ -39,7 +39,7 @@ class Trie {
 
 private:
 
-    // TODO COMMENT
+    // A map that holds the 'branches' of a Trie 
     map<char, Trie> children;
 
     /** 
@@ -49,10 +49,19 @@ private:
      */
     bool isEndOfWord;
 
-    // TODO COMMENT
+    /**
+     * @brief Helper method to determine if a letter is valid caharcter that ranges from a - z.
+     * @param letter - The letter or character to check.
+     * @return - returns true if the letter is a valid character.
+     */
     static bool isValidChar(char letter);
 
-    // TODO COMMENT
+    /**
+     * @brief Helper method to traverse through the Trie in a more simpler way using simple logic 
+     * to find letters in a Trie like find().
+     * @param searchPrefix - the prefix to be used to search in the Trie
+     * @return returns a Trie node.
+     */
     const Trie* traverseTrie(const string& searchPrefix) const;
 
 public:
