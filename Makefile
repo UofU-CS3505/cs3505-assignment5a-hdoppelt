@@ -6,8 +6,8 @@
 #   using GoogleTest.
 #
 # Targets:
-# 	- TrieTests: Compiles and links the Trie implementation with GoogleTest.
-#   - test: Runs the compiled TrieTests executable.
+# 	- trieTests: Compiles and links the Trie implementation with GoogleTest.
+#   - test: Runs the compiled trieTests executable.
 #   - clean: Removes compiled binaries and object files.
 
 # Compiler and Flags
@@ -15,7 +15,7 @@ CC = g++
 CFLAGS = -Wall
 
 # GoogleTest Location
-GOOGLETEST ?= googletest
+GOOGLETEST ?= /googletest
 GTEST_LIB = $(GOOGLETEST)/lib
 GTEST_INC = $(GOOGLETEST)/googletest/include
 
