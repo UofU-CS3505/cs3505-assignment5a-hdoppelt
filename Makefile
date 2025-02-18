@@ -20,7 +20,7 @@ GTEST_LIB = $(GOOGLETEST)/lib
 GTEST_INC = $(GOOGLETEST)/googletest/include
 
 # Compile Target
-TrieTests: trie.o trieTests.o
+trieTests: trie.o trieTests.o
 	$(CC) $(CFLAGS) -L$(GTEST_LIB) -I$(GTEST_INC) trie.o trieTests.o -o TrieTests -lgtest -lgtest_main
 
 # Compile trieTests.o
@@ -32,9 +32,9 @@ trie.o: trie.cpp trie.h
 	$(CC) $(CFLAGS) -c trie.cpp
 
 # Test Target
-test: TrieTests
-	./TrieTests
+test: trieTests
+	./trieTests
 
 # Clean Target
 clean:
-	rm -f TrieTests *.o
+	rm -f trieTests *.o
